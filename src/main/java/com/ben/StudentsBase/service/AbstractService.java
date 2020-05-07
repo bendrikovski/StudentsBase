@@ -1,9 +1,9 @@
 package com.ben.StudentsBase.service;
 
+import com.ben.StudentsBase.exception.RecordNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -22,29 +22,39 @@ public abstract class AbstractService<D extends JpaRepository<E, Long>, E, V> {
         return repository.findAll();
     }
 
-    public Optional<E> findById(Long id) {
-        return repository.findById(id);
+    public E findById(Long id) {
+        return repository
+                .findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public List<V> findAllViews() {
         return findAll().stream().map(toView).collect(Collectors.toList());
     }
 
-    public Optional<V> findViewById(Long id) {
-        return repository.findById(id).map(toView);
+    public V findViewById(Long id) {
+        return repository
+                .findById(id)
+                .map(toView)
+                .orElseThrow(() -> new RecordNotFoundException(id));
+
     }
 
-    public void save(E entity) {
-        repository.save(entity);
+    public E save(E entity) {
+        return repository.save(entity);
     }
 
-    public void saveView(V view) {
-        repository.save(toModel.apply(view));
+    public E saveView(V view) {
+        return repository.save(toModel.apply(view));
+    }
+
+    public void deleteById(Long id) {
+        E entity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
+        repository.delete(entity);
     }
 
     public D getRepository() {
         return repository;
     }
-
 
 }
