@@ -1,11 +1,10 @@
 package com.ben.StudentsBase.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import lombok.*;
 
 @Entity
 @Table(name = "students")
@@ -15,12 +14,12 @@ import lombok.*;
 @EqualsAndHashCode(exclude = {"courses", "hostel"})
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Student {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String surname;
     private int roomNumber;

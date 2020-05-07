@@ -5,17 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class HostelView {
     private Long id;
+
+    @NotBlank(message = "Please provide a street")
     private String street;
+
+    @NotBlank(message = "Please provide a building")
     private String building;
     private String campus;
 

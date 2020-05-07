@@ -12,21 +12,21 @@ import java.util.Set;
 @Setter
 @ToString
 @EqualsAndHashCode(exclude = {"students"})
-@NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class Course {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "discipline", unique = true)
     private String discipline;
+    private String professorName;
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
     private Set<Student> students = new HashSet<>();
 
-    public Course(String discipline) {
-        this.discipline = discipline;
-    }
 
+    public Course(String discipline, String professorName) {
+        this.discipline = discipline;
+        this.professorName = professorName;
+    }
 }

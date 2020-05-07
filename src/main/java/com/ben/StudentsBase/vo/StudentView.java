@@ -1,12 +1,11 @@
 package com.ben.StudentsBase.vo;
 
-import com.ben.StudentsBase.model.Course;
 import com.ben.StudentsBase.model.Student;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,8 +14,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class StudentView {
     private Long id;
+
+    @NotBlank(message = "Please provide a name")
     private String name;
+
+    @NotBlank(message = "Please provide a surname")
     private String surname;
+
     private int roomNumber;
     private HostelView hostel;
     private int yearOfLearning;

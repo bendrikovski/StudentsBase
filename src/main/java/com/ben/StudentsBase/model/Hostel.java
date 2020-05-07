@@ -3,7 +3,6 @@ package com.ben.StudentsBase.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,16 +16,16 @@ import java.util.Set;
 @AllArgsConstructor
 public class Hostel {
     @Id
-    @GeneratedValue
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    String street;
-    String building;
-    String campus;
+    private String street;
+    private String building;
+    private String campus;
 
     @OneToMany(mappedBy = "hostel", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    Set<Student> students = new HashSet<>();
+    private Set<Student> students = new HashSet<>();
 
     public Hostel(String street, String building, String campus) {
         this.street = street;
