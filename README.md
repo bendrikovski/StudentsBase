@@ -28,7 +28,7 @@ ADMIN
 - DELETE("/courses/{courseId}")
 - GET("/courses/subscribers/{disciplineId}")
 
-<H3>HOSTELS:<H3>
+<h3>HOSTELS:</h3>
   
 ALL
 - GET("/hostels")
@@ -39,7 +39,7 @@ ADMIN
 - PUT("/hostels")
 - DELETE("/hostels/{hostelId}")
 
-<H3>STUDENTS:<H3>
+<h3>STUDENTS:</h3>
   
 ADMIN
 - GET("/students")
