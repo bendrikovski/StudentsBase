@@ -10,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
 
 @SpringBootApplication
-public class StudentsBaseApplication implements CommandLineRunner {
+public class StudentsBaseApplication {
 
     @Autowired
     StudentRepository studentRepository;
@@ -27,28 +28,35 @@ public class StudentsBaseApplication implements CommandLineRunner {
         SpringApplication.run(StudentsBaseApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
+    @Bean
+    CommandLineRunner initDatabase(CourseRepository courseRepository, HostelRepository hostelRepository, StudentRepository studentRepository) {
+        return args -> {
+            Hostel hostel = new Hostel("Botanicheskaya", "12/2", "PUNK");
+            hostelRepository.save(hostel);
 
-        Hostel hostel = new Hostel("Botanicheskaya", "12/2", "PUNK");
-        hostelRepository.save(hostel);
+            Student student1 = new Student("Ben", "Fisher", 15, hostel, 4);
+            Student student2 = new Student("Jack", "Walker", 15, hostel, 4);
+            studentRepository.save(student1);
+            studentRepository.save(student2);
 
-        Student student = new Student("John", "Doe", 15, hostel, 4);
-        studentRepository.save(student);
+            // create 4 courses
+            Course course1 = new Course("Machine Learning", "Vlasov Daniel");
+            Course course2 = new Course("Database Systems", "Kremlev Michael");
+            Course course3 = new Course("Web Basics", "Pushkin Alex");
+            Course course4 = new Course("Web Basics", "Kovalchuk Ilya");
 
-        // create three courses
-        Course course1 = new Course("Machine Learning");
-        Course course2 = new Course("Database Systems");
-        Course course3 = new Course("Web Basics");
+            // save courses
+            courseRepository.saveAll(Arrays.asList(course1, course2, course3, course4));
 
-        // save courses
-        courseRepository.saveAll(Arrays.asList(course1, course2, course3));
+            // add courses to the student
+            student1.getCourses().addAll(Arrays.asList(course1, course2, course3, course4));
+            student2.getCourses().add(course3);
 
-        // add courses to the student
-        student.getCourses().addAll(Arrays.asList(course1, course2, course3));
 
-        // update the student
-        studentRepository.save(student);
+            // update the student
+            studentRepository.save(student1);
+            studentRepository.save(student2);
+        };
+
     }
-
 }
